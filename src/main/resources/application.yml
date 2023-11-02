@@ -1,0 +1,49 @@
+#spring.jpa.hibernate.ddl-auto=update
+#spring.datasource.url=jdbc:mysql://localhost:3306/project_ojt
+#spring.datasource.username=root
+#spring.datasource.password=dat2062002
+#spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+#spring.jpa.show-sql=true
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/project_ojt
+    username: root
+    password: dat2062002
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 770936987918-60np463t2cl4a49olcknqrdustvegt7m.apps.googleusercontent.com
+            client-secret: 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
+          scope:
+            - email
+            - profile
+
+
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: datnguyentien.20602@gmail.com
+    password: wshr cpil jwnk zfaf
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
+
+
+
+
+
+
+#    password: ygbu zefr jqnw zjbl
