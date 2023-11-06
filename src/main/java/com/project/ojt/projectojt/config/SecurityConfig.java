@@ -19,8 +19,8 @@
 //                    auth.requestMatchers("/").permitAll();
 //                    auth.anyRequest().authenticated();
 //                })
-//                .oauth2Login(withDefaults())
-//                .formLogin(withDefaults())
+////                .oauth2Login(withDefaults())
+////                .formLogin(withDefaults())
 //                .build();
 //
 //    }

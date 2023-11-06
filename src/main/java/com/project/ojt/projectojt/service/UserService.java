@@ -9,6 +9,7 @@ import com.project.ojt.projectojt.util.OtpUtil;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -23,6 +24,13 @@ public class UserService {
     private UserRepo userRepository;
 
     public String register(RegisterDTO registerDto) {
+
+        // Kiểm tra xem mật khẩu có khớp với nhập lại mật khẩu hay không
+        if (!registerDto.getPassword().equals(registerDto.getRePassword())) {
+            // Xử lý khi mật khẩu không khớp, ví dụ: đưa ra thông báo lỗi
+
+        }
+
         String otp = otpUtil.generateOtp();
         try {
             emailUtil.sendOtpEmail(registerDto.getEmail(), otp);

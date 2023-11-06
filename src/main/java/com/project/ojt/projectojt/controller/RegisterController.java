@@ -3,18 +3,33 @@ package com.project.ojt.projectojt.controller;
 import com.project.ojt.projectojt.dto.request.LoginDTO;
 import com.project.ojt.projectojt.dto.request.RegisterDTO;
 
+import com.project.ojt.projectojt.entity.User;
+import com.project.ojt.projectojt.repository.UserRepo;
 import com.project.ojt.projectojt.service.UserService;
+import com.project.ojt.projectojt.util.EmailUtil;
+import com.project.ojt.projectojt.util.OtpUtil;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
+
 @RestController
 public class RegisterController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OtpUtil otpUtil;
+    @Autowired
+    private EmailUtil emailUtil;
+    @Autowired
+    private UserRepo userRepository;
 
     @GetMapping("/register")
     public ModelAndView getRegister() {
@@ -24,9 +39,29 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register (@ModelAttribute("registerDto") RegisterDTO registerDTO){
-
-        return new ResponseEntity<>(userService.register(registerDTO), HttpStatus.OK);
+    public ModelAndView register (@ModelAttribute("registerDto") RegisterDTO registerDto,
+                                  HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView("register");
+        // Kiểm tra xem mật khẩu có khớp với nhập lại mật khẩu hay không
+        if (!registerDto.getPassword().equals(registerDto.getRePassword())) {
+            // Xử lý khi mật khẩu không khớp, ví dụ: đưa ra thông báo lỗi
+            modelAndView.addObject("registerError", "Nhập lại mk không khớp!");
+        } else {
+            String otp = otpUtil.generateOtp();
+            try {
+                emailUtil.sendOtpEmail(registerDto.getEmail(), otp);
+            } catch (MessagingException e) {
+                throw new RuntimeException("Unable to send otp please try again");
+            }
+            User user = new User();
+            user.setName(registerDto.getName());
+            user.setEmail(registerDto.getEmail());
+            user.setPassword(registerDto.getPassword());
+            user.setOtp(otp);
+            user.setOtpGeneratedTime(LocalDateTime.now());
+            userRepository.save(user);
+        }
+        return modelAndView;
     }
 
 
