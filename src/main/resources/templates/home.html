@@ -1,20 +1,168 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link th:href="@{CSS/home.css}" rel="stylesheet" type="text/css"/>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{CSS/images/logo.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{CSS/images/logo.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{CSS/images/logo.png}">
+    <link rel="manifest" th:href="@{/Content/img/site.webmanifest}">
+
+    <title>Review Phim</title>
+    <meta name="description"
+          content="Review Phim">
+    <meta property="og:title"
+          content="Review Phim">
+    <meta property="og:description"
+          content="Review Phim">
+    <meta property="og:type" content="website">
+    <!--    <meta property="og:url" content="https://reviewcty.net">-->
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:site_name" content="Review Phim">
+    <meta property="og:image" th:src="@{CSS/images/logo.png}">
+
+    <meta name="language" content="vietnamese">
+
+    <!-- Thêm Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+
 </head>
 <body>
+<nav class="main-nav navbar">
+    <div class="container">
+        <div class="logo">
+            <a th:href="@{/}" class="home-logo">
+                <img class="logo-img" th:src="@{CSS/images/logo.png}" alt="">
+            </a>
+            <h1 class="logo-text" style="font-weight: bold">
+                <a th:href="@{/}" class="home-logo">RevPhim</a>
+            </h1>
+        </div>
+        <div style="height: 100%; width: 30%">
+            <ul style="height: 100%; width: 100%;">
+                <li class="nav-item"
+                    style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                    <a class="nav-link" href="/login">Đăng nhập</a>
+                </li>
+                <li class="nav-item"
+                    style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                    <a class="nav-link" href="/register">Đăng ký</a>
+                </li>
+            </ul>
+        </div>
 
-<h1>Home page</h1>
 
-<!-- Check if the user is logged in and display a greeting -->
-<h4 th:if="${session.user != null}">Xin chào <span th:text="${session.user.name}"></span></h4>
+    </div>
+</nav>
+<div class="jumbotron text-center">
+    <h4 class="main-text">Review phim: dễ dàng lựa chọn, đánh giá, url phim hay...</h4>
+    <div class="form-row">
+        <div class="col-12">
+            <form method="get" th:action="@{/search}">
+                <div class="input-group input-group-lg search-input">
 
-<!-- Add a button for logout -->
-<form th:action="@{/logout}" method="get">
-    <button type="submit">Sign Out</button>
-</form>
+                    <input id="movieSearch" type="text" class="form-control" placeholder="Tìm phim"
+                           aria-describedby="basic-addon1" name="searchTerm"
+                           style="border-top-left-radius: 30px; border-bottom-left-radius:30px ">
+                    <div class="input-group-append">
+                        <button class="" type="submit"
+                                style="height: 100%;border-top-right-radius: 30px; border-bottom-right-radius: 30px; background-color: cornflowerblue; border-color: white">
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="container body-content">
+    <div class="container">
+        <div class="row">
+            <div class="order-1 col-md-8 content-area order-md-1">
+                <div data-href="" class="company-item">
+                    <div class="company-info d-flex justify-content-between" th:each="movie : ${movies}">
+                        <img th:src="${movie.getImage()}" class="col-md-4"
+                                 alt="VTC Academy" title="VTC Academy">
+                        <div class="company-info__detail col-md-7">
+                            <h2 class="is-size-5 has-text-weight-semibold company-info__name">
+                               Tên phim:     <a th:href="@{'/movie-detail/' + ${movie.movieId}}" class="company-link" style="text-decoration: none" th:text="${movie.movieName}"></a>
+
+                            </h2>
+                            <div class="company-info__other">
+                                    <span class="sp-mr">
+                                       Thể loại: <span class="icon"> <i class="fas fa-briefcase"></i></span><span th:text="${movie.getGenre()}"></span>
+                                    </span><br>
+                                <span>
+                                       Điểm trung bình: <span class="icon"> <i class="fas fa-users"></i> </span><span th:text="${movie.getAverageGrade()}"></span>
+                                    </span>
+                            </div>
+                            <div class="company-info__location">
+                                    <span>
+                                       Mô tả: <span class="icon"> <i class="fas fa-building"></i> </span> <span th:text="${movie.getDescription()}"></span>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--                <div class="text-center paging-area">-->
+                <!--                    Trang 1 trong tổng số 213-->
+                <!--                    <div class="pagination-container">-->
+                <!--                        <ul class="pagination">-->
+                <!--                            <li class="paging-link active"><a>1</a></li>-->
+                <!--                            <li class="paging-link"><a href="/?page=2">2</a></li>-->
+                <!--                            <li class="paging-link"><a href="/?page=3">3</a></li>-->
+                <!--                            <li class="paging-link"><a href="/?page=4">4</a></li>-->
+                <!--                            <li class="paging-link"><a href="/?page=5">5</a></li>-->
+                <!--                            <li class="paging-link"><a href="/?page=6">6</a></li>-->
+                <!--                            <li class="paging-link"><a href="/?page=7">7</a></li>-->
+                <!--                            <li class="paging-link"><a href="/?page=8">8</a></li>-->
+                <!--                            <li class="paging-link"><a href="/?page=9">9</a></li>-->
+                <!--                            <li class="paging-link"><a href="/?page=10">10</a></li>-->
+                <!--                            <li class="paging-link disabled PagedList-ellipses"><a>&#8230;</a></li>-->
+                <!--                            <li class="paging-link PagedList-skipToNext"><a href="/?page=2" rel="next">»</a></li>-->
+                <!--                            <li class="paging-link PagedList-skipToLast"><a href="/?page=213">»»</a></li>-->
+                <!--                        </ul>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+            </div>
+            <div class="order-2 col-md-4 order-md-2">
+                <h1 class="is-size-4 has-text-weight-bold m-t-30">Review gần đây</h1>
+                <div class="review" th:each="review : ${recentReviews}">
+                    <h3 class="rv-content">
+                            <span class="has-text-weight-bold" th:text="${review.getUser().getName()}">
+                            </span> đã review <span class="has-text-weight-bold" th:text="${review.getMovieId().getMovieName()}"></span>
+                    </h3>
+                    <p class="rv-content">
+                        <span th:text="${review.getCreatedAt()}"></span><br>
+                        <span th:text="${review.getGrade()}"></span>
+                    </p>
+                    <p class="rv-content text-content" th:text="${review.getComment()}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+</div>
+
+<hr/>
+<footer class="main-footer">
+    <div class="level text-center">
+        <div class="level-left">
+            <p class="level-item" style="color: white; padding-top: 30px">
+                <span>@Copyright by Datnt</span>
+            </p>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>

@@ -1,0 +1,356 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    &lt;!&ndash; Các phần khác của tiêu đề &ndash;&gt;-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:if="${movie != null}">-->
+<!--    <h1 th:text="${movie.movieName}"></h1>-->
+<!--    <p>Thể loại: <span th:text="${movie.genre}"></span></p>-->
+<!--    <p>Đạo diễn: <span th:text="${movie.director}"></span></p>-->
+<!--    <p>Ngày công chiếu: <span th:text="${#dates.format(movie.releaseDate, 'dd/MM/yyyy')}"></span></p>-->
+<!--    <p>Điểm trung bình: <span th:text="${movie.averageGrade}"></span></p>-->
+<!--    &lt;!&ndash; Các thông tin khác về phim &ndash;&gt;-->
+<!--</div>-->
+<!--<div th:if="${errorMessage != null}" class="alert alert-danger">-->
+<!--    <p th:text="${errorMessage}"></p>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/CSS/movie-detail.css}" rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/CSS/images/logo.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/CSS/images/logo.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/CSS/images/logo.png}">
+
+
+    <title>Review Phim</title>
+    <meta name="description"
+          content="Review Phim">
+    <meta property="og:title"
+          content="Review Phim">
+    <meta property="og:description"
+          content="Review Phim">
+    <meta property="og:type" content="website">
+    <!--    <meta property="og:url" content="https://reviewcty.net">-->
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:site_name" content="Review Phim">
+    <meta property="og:image" th:src="@{/CSS/images/logo.png}">
+
+    <meta name="language" content="vietnamese">
+
+    <!-- Thêm Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+</head>
+<body>
+<nav class="main-nav navbar">
+    <div class="container">
+        <div class="logo">
+            <a th:href="@{/}" class="home-logo">
+                <img class="logo-img" th:src="@{/CSS/images/logo.png}" alt="">
+            </a>
+            <h1 class="logo-text" style="font-weight: bold">
+                <a th:href="@{/}" class="home-logo">RevPhim</a>
+            </h1>
+        </div>
+        <div style="height: 100%; width: 30%">
+            <ul style="height: 100%; width: 100%;">
+                <li class="nav-item"
+                    style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                    <a class="nav-link" href="/login">Đăng nhập</a>
+                </li>
+                <li class="nav-item"
+                    style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                    <a class="nav-link" href="/register">Đăng ký</a>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+</nav>
+
+<div th:if="${movie != null}">
+    <div class="container body-content">
+        <div class="container">
+            <section class="company-info-company-page">
+                <div class="row">
+                    <div class="company-info col-md-9">
+                        <div class="company-info d-flex justify-content-between">
+                            <img th:src="${movie.getImage()}" class="col-md-4"
+                                 alt="VTC Academy" title="VTC Academy">
+                            <div class="company-info__detail col-md-7">
+                                <h2 class="is-size-5 has-text-weight-semibold company-info__name">
+                                    Tên phim:     <a th:href="@{'/movie-detail/' + ${movie.movieId}}" class="company-link" style="text-decoration: none" th:text="${movie.movieName}"></a>
+
+                                </h2>
+                                <div class="company-info__other">
+                                    <span class="sp-mr">
+                                       Thể loại: <span class="icon"> <i class="fas fa-briefcase"></i></span><span th:text="${movie.getGenre()}"></span>
+                                    </span><br>
+                                    <span>
+                                       Điểm trung bình: <span class="icon"> <i class="fas fa-users"></i> </span><span th:text="${movie.getAverageGrade()}"></span>
+                                    </span>
+                                </div>
+                                <div class="company-info__location">
+                                    <span>
+                                       Đạo diễn: <span class="icon"> <i class="fas fa-building"></i> </span> <span th:text="${movie.getDirector()}"></span>
+                                    </span>
+                                </div>
+                                <div class="company-info__location">
+                                    <span>
+                                       Ngày ra mắt: <span class="icon"> <i class="fas fa-building"></i> </span> <span th:text="${movie.getReleaseDate()}"></span>
+                                    </span>
+                                </div>
+                                <div class="company-info__location">
+                                    <span>
+                                       Mô tả: <span class="icon"> <i class="fas fa-building"></i> </span> <span th:text="${movie.getDescription()}"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="company-action col-md-3 text-center">
+                        <button class="btn btn-success pull-right justify-content-center btn-create-review" type="button"
+                                data-toggle="modal" data-target="#reviewModal">
+                            <span class="icon"> <i class="fas fa-pencil-alt"></i> </span> <span>Viết review</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section class="review">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="column is-one-quarter-tablet">
+                            <div class="box m-b-10">
+                                <h4 class="is-size-5 has-text-weight-bold m-b-10 total-rev text-center">
+                                    Tổng Review <span class="is-size-6 has-text-weight-light">
+                            <span>
+                                        <span class="icon is-small has-text-warning">
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                        <span class="icon is-small has-text-warning">
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </span>
+                                        <span class="icon is-small has-text-warning">
+                                            <i class="far fa-star"></i>
+                                        </span>
+                                        <span class="icon is-small has-text-warning">
+                                            <i class="far fa-star"></i>
+                                        </span>
+                                        <span class="icon is-small has-text-warning">
+                                            <i class="far fa-star"></i>
+                                        </span>
+                            </span>
+                            <span class="company-info__rating-count">(171)</span>
+                        </span>
+                                </h4>
+
+                                <ul>
+                                    <li class="li-rate">
+                                        <span class="review-point mr-10">5 sao</span>
+                                        <progress class="progress is-info mr-10" value="0" max="11"></progress>
+                                        <span class="review-percent"> 0 reviews</span>
+                                    </li>
+                                    <li class="li-rate">
+                                        <span class="review-point mr-10">4 sao</span>
+                                        <progress class="progress is-info mr-10" value="0" max="11"></progress>
+                                        <span class="review-percent"> 0 reviews</span>
+
+                                    </li>
+                                    <li class="li-rate">
+                                <span class="review-point mr-10">
+                                    <a href="/company/earable-vietnam?rate=3" class="link-rate">3 sao</a>
+                                </span>
+                                        <progress class="progress is-info mr-10" value="2" max="11"></progress>
+                                        <span class="review-percent"><a href="/company/earable-vietnam?rate=3"
+                                                                        class="rv-count"> 2 reviews</a></span>
+                                    </li>
+                                    <li class="li-rate">
+                                        <span class="review-point mr-10">2 sao</span>
+                                        <progress class="progress is-info mr-10" value="0" max="11"></progress>
+                                        <span class="review-percent"> 0 reviews </span>
+
+                                    </li>
+                                    <li class="li-rate">
+                                <span class="review-point mr-10">
+                                    <a href="/company/earable-vietnam?rate=1" class="link-rate">1 sao</a>
+                                </span>
+                                        <progress class="progress is-info mr-10" value="11" max="11"></progress>
+                                        <span class="review-percent"><a href="/company/earable-vietnam?rate=1"
+                                                                        class="rv-count"> 11 reviews</a></span>
+                                    </li>
+                                </ul>
+
+                                <p class="has-text-weight-medium text-center">Đang hiển thị toàn bộ review</p>
+                            </div>
+                        </div>
+                        <script async
+                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9045138390920719"
+                                crossorigin="anonymous"></script>
+                        <!-- square -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-9045138390920719"
+                             data-ad-slot="1776187575"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                    <div class="col-md-8">
+
+                        <h3 class="is-size-5 has-text-weight-semibold company-info__name">Review phim
+                        <span th:text="${movie.getMovieName()}"></span>
+                        </h3>
+<!--                        <p class="text-danger">Tất cả các đánh giá xúc phạm hoặc miệt thị các cá nhân, tổ chức và công ty sẽ-->
+<!--                            bị xóa.</p>-->
+                        <div class="card card-rv" >
+                            <style>
+                                .card-header {
+                                    font-weight: 700;
+                                    display: flex;
+                                }
+
+                                .star-rv {
+                                    display: flex;
+                                    flex-grow: 1;
+                                    align-items: center;
+                                    margin: 0px !important;
+                                }
+
+                                .mrleft-2 {
+                                    margin-left: .2rem;
+                                }
+
+                                .time-ago {
+                                    font-weight: 300;
+                                    display: flex;
+                                    align-items: center;
+                                }
+
+                                .card-footer {
+                                    display: flex;
+                                    padding: 0px;
+                                    border-bottom: 1px solid rgba(0, 0, 0, .125);
+                                }
+
+                                .review-comments {
+                                    padding: 1rem;
+                                }
+
+                                .comment {
+                                    border-top: 1px solid rgba(128, 128, 128, 0.35);
+                                }
+
+                                .comment__title {
+                                    margin-bottom: 0;
+                                    margin-top: .2rem;
+                                }
+
+                                .comment__content {
+                                    margin-bottom: 0.2rem;
+                                    margin-top: 0.2rem;
+                                }
+                            </style>
+                            <div class="card-header">
+                                <p class="star-rv">
+
+                                    mới đi pv
+                                    <span class="mrleft-2">
+                    <span class="icon-stars has-text-warning">
+                        <i class="fas fa-star"></i>
+                    </span>
+                    <span class="icon-star has-text-warning">
+                        <i class="far fa-star"></i>
+                    </span>
+                    <span class="icon-star has-text-warning">
+                        <i class="far fa-star"></i>
+                    </span>
+                    <span class="icon-star has-text-warning">
+                        <i class="far fa-star"></i>
+                    </span>
+                    <span class="icon-star has-text-warning">
+                        <i class="far fa-star"></i>
+                    </span>
+        </span>
+                                </p>
+                                <time class="time-ago">20 ph&#250;t trước</time>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text text-content">Thử phỏng vấn xem ntn c&#243; giống tr&#234;n review k th&#236;
+                                    vcl y hệt đến mức k tưởng , cty to&#224;n 1 lũ nguu c&#243; vẻ k&#233;o b&#232; kết đảng
+                                    th&#237;ch nịnh bợ , chuy&#234;n m&#244;n k c&#243; pv g&#236; để ứng vi&#234;n hỏi
+                                    ngược lại k trả lời đc .</p>
+                            </div>
+                            <div class="card-footer text-muted">
+    <span data-prefill="" data-reaction="1" class="link-comment card-footer-item clickable"
+          onclick="showReactionModal(this)">
+        <span class="icon-reply icon text-primary"> <i class="fas fa-comments"></i> </span> Reply
+    </span>
+                                <span data-prefill="tặng 1 like vì nói đúng!!!" data-reaction="1"
+                                      class="link-comment card-footer-item clickable" onclick="showReactionModal(this)">
+        0
+        <span class="icon-like icon has-text-success"> <i class="fas fa-thumbs-up"></i> </span>
+    </span>
+                                <span data-prefill="review nhảm nhí, dislike!!!" data-reaction="2"
+                                      class="link-comment card-footer-item clickable" onclick="showReactionModal(this)">
+        1
+        <span class="icon-dislike icon has-text-danger"> <i class="fas fa-thumbs-down"></i> </span>
+    </span>
+
+                            </div>
+                            <div class="review-comments">
+                                <div class="comment">
+                                    <p class="comment__title">
+                    <span class="has-text-weight-bold">
+
+                        Ẩn danh đã
+                            <span class="icon-like icon has-text-danger"> <i class="fas fa-thumbs-down"></i> </span>
+                        11 ph&#250;t trước
+                    </span>
+                                    </p>
+                                    <p class="comment__content text-500 text-content">Bạn c&#243; chuy&#234;n m&#244;n g&#236;
+                                        m&#224; đ&#225;nh gi&#225; người kh&#225;c thế</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </section>
+        </div>
+
+        <hr/>
+    </div>
+
+</div>
+
+<hr/>
+<footer class="main-footer">
+    <div class="level text-center">
+        <div class="level-left">
+            <p class="level-item" style="color: white; padding-top: 30px">
+                <span>@Copyright by Datnt</span>
+            </p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
+

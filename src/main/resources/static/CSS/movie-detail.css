@@ -1,0 +1,58 @@
+/* Thêm tùy chỉnh CSS tại đây */
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #F0F2F5 !important;
+}
+.company-info{
+    margin-top: 15px;
+}
+
+.main-nav {
+    background-color: #000000;
+    padding: 10px 0;
+}
+ul{list-style: none}
+
+.main-nav .logo {
+    display: flex;
+    align-items: center;
+}
+.review {
+    border-left: 2px solid #000000 ; /* Thay thế your-color bằng màu bạn muốn sử dụng */
+    padding-left: 10px; /* Để tạo khoảng cách giữa nội dung và viền */
+}
+
+.main-nav .logo .logo-img {
+    max-width: 40px;
+}
+
+.main-nav .logo .logo-text .home-logo {
+    margin-left: 10px;
+    font-size: 24px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.jumbotron {
+    background-image: url('images/wallpaperflare.com_wallpaper.jpg') ;
+    background-size: cover;
+    color: #fff;
+    padding: 100px 0;
+
+}
+
+
+.main-text {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    max-width: 400px;
+    margin: 0 auto;
+}
+.main-footer{
+    background-color:black ;
+    height: 100px;
+}
