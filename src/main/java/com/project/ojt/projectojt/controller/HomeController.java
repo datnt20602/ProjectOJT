@@ -48,27 +48,7 @@ public class HomeController {
         return mav;
     }
 
-    @GetMapping("/movie-detail/{movieId}")
-    public ModelAndView movieDetail(@PathVariable Integer movieId, HttpServletRequest request) {
-        // Lấy thông tin phim dựa trên movieId và truyền nó đến trang movie-detail.html
-        Movies movie = movieService.getMovieById(movieId); // Chưa implement phương thức getMovieById
-        ModelAndView mav = new ModelAndView("movie-detail");
-        mav.addObject("movie", movie);
 
-        User user = (User) request.getSession().getAttribute("user");
-        if (movie != null) {
-            mav.addObject("movie", movie);
-            if (user != null) {
-                mav.addObject("name", user.getName());
-            }
-        } else {
-            // Xử lý trường hợp không tìm thấy bộ phim
-            mav.addObject("errorMessage", "Bộ phim không tồn tại");
-        }
-
-        // Thực hiện bất kỳ công việc nào khác cần thiết
-        return mav;
-    }
 
 
 }

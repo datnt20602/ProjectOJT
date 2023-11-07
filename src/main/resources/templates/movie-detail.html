@@ -118,6 +118,16 @@
                         </div>
                     </div>
 
+                    <div th:if="${urls != null}">
+                        <h2>URLs for this movie:</h2>
+                        <ul>
+                            <li th:each="url : ${urls}">
+                                <a th:href="${url.getUrlValue()}" th:text="${url.getUrlValue()}">Link</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
                     <div class="company-action col-md-3 text-center">
                         <button class="btn btn-success pull-right justify-content-center btn-create-review" type="button"
                                 data-toggle="modal" data-target="#reviewModal">
