@@ -1,5 +1,6 @@
 package com.project.ojt.projectojt.service.iml;
 
+import com.project.ojt.projectojt.entity.Feedback;
 import com.project.ojt.projectojt.entity.Movies;
 import com.project.ojt.projectojt.entity.Url;
 import com.project.ojt.projectojt.repository.MoviesRepository;
@@ -38,6 +39,7 @@ public class MovieServiceIml implements MovieService {
     public List<Url> getUrlByMovieId(Integer movieId) {
         return urlRepository.findByMovieId(movieId);
     }
+
 
 
 

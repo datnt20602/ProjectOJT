@@ -1,5 +1,6 @@
 package com.project.ojt.projectojt.service;
 
+
 import com.project.ojt.projectojt.entity.Movies;
 import com.project.ojt.projectojt.entity.Url;
 
@@ -14,4 +15,5 @@ public interface MovieService {
     Movies getMovieById(Integer movieId);
 
     List<Url> getUrlByMovieId(Integer movieId);
+
 }

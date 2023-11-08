@@ -13,6 +13,4 @@ public interface MoviesRepository extends JpaRepository<Movies, Integer> {
 
     Movies findMoviesByMovieId(Integer movieId);
 
-    List<Url> findUrlsByMovieId(Integer movieId);
-
 }

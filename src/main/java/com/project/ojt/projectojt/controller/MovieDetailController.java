@@ -1,8 +1,10 @@
 package com.project.ojt.projectojt.controller;
 
+import com.project.ojt.projectojt.entity.Feedback;
 import com.project.ojt.projectojt.entity.Movies;
 import com.project.ojt.projectojt.entity.Url;
 import com.project.ojt.projectojt.entity.User;
+import com.project.ojt.projectojt.service.FeedbackService;
 import com.project.ojt.projectojt.service.MovieService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +19,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovieDetailController {
     private final MovieService movieService;
+    private final FeedbackService feedbackService;
 
     @GetMapping("/movie-detail/{movieId}")
     public ModelAndView movieDetail(@PathVariable Integer movieId, HttpServletRequest request) {
         // Lấy thông tin phim dựa trên movieId và truyền nó đến trang movie-detail.html
         Movies movie = movieService.getMovieById(movieId); // Chưa implement phương thức getMovieById
         List<Url> urls = movieService.getUrlByMovieId(movieId); // Thay vì `getUrlByMovieId`
+        List<Feedback> feedback = feedbackService.getFeedbackByMovieId(movie);
+
         ModelAndView mav = new ModelAndView("movie-detail");
         mav.addObject("movie", movie);
         mav.addObject("urls", urls);
+        mav.addObject("feedback", feedback);
+
 
         User user = (User) request.getSession().getAttribute("user");
         if (movie != null) {
