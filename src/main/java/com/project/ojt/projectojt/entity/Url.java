@@ -17,9 +17,9 @@ public class Url {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "movie_id")
-    private Integer movieId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "movie_id")
+    private Movies movieId;
     private String urlValue;
 
     @ManyToOne(fetch = FetchType.LAZY)

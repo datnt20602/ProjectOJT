@@ -34,7 +34,7 @@ public class MovieDetailController {
     public ModelAndView movieDetail(@PathVariable Integer movieId, HttpServletRequest request) {
         // Lấy thông tin phim dựa trên movieId và truyền nó đến trang movie-detail.html
         Movies movie = movieService.getMovieById(movieId); // implement phương thức getMovieById
-        List<Url> urls = urlService.getUrlByMovieId(movieId); // Thay vì `getUrlByMovieId`
+        List<Url> urls = urlService.getUrlByMovieId(movie); // Thay vì `getUrlByMovieId`
         List<Feedback> feedback = feedbackService.getFeedbackByMovieId(movie);
 
         ModelAndView mav = new ModelAndView("movie-detail");
@@ -112,7 +112,7 @@ public class MovieDetailController {
             if (user != null) {
                 // Tạo đối tượng Feedback và thiết lập thông tin
                 Url url = Url.builder()
-                        .movieId(movie.getMovieId())
+                        .movieId(movie)
                         .urlValue(link)
                         .user(user)
                         .build();

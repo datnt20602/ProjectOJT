@@ -17,7 +17,6 @@ import java.util.Optional;
 public class MovieServiceIml implements MovieService {
 
     private final MoviesRepository moviesRepository;
-    private final UrlRepository urlRepository;
 
     @Override
     public List<Movies> getAll() {
@@ -34,10 +33,7 @@ public class MovieServiceIml implements MovieService {
         return moviesRepository.findMoviesByMovieId(movieId);
     }
 
-    @Override
-    public List<Url> getUrlByMovieId(Integer movieId) {
-        return urlRepository.findByMovieId(movieId);
-    }
+
 
 
 }
