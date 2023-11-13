@@ -11,7 +11,7 @@ public class LogoutController {
     @GetMapping("/logout")
     public ModelAndView logout(HttpSession session) {
         session.invalidate(); // Invalidate the current session to log the user out
-        ModelAndView modelAndView = new ModelAndView("redirect:/login"); // Redirect to the login page
+        ModelAndView modelAndView = new ModelAndView("redirect:/home"); // Redirect to the login page
         return modelAndView;
     }
 }

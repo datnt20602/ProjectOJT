@@ -51,11 +51,10 @@
 </head>
 <body>
 <div id="popup">
-    <form action="" method="">
-
-        <div class="wave-group">
+    <form th:action="@{'/add-feedback/' + ${movie.movieId}}" method="post" id="writeReview">
+        <div class="wave-group" th:if="${session.user!=null}">
             <input type="text" class="input" id="detailName" name="name"
-                   style="margin-top: 20px;width: 80%" readonly>
+                   style="margin-top: 20px;width: 80%" th:text="${user.getName()}"  readonly>
             <span class="bar"></span>
             <label class="label">
                 <span class="label-char" style="--index: 0">N</span>
@@ -75,8 +74,8 @@
 
         </div>
         <div class="wave-group">
-            <input type="text" class="input" id="detailGrade" name="grade"
-                   style="margin-top: 20px;width: 80%">
+            <input type="number" class="input" id="detailGrade" name="grade"
+                   style="margin-top: 20px;width: 80%" min="1" max="10" required>
             <span class="bar"></span>
             <label class="label">
                 <span class="label-char" style="--index: 0">G</span>
@@ -88,7 +87,7 @@
         </div>
         <div class="" style="margin-top: 20px;">
 
-            <button type="submit" name="option" value="updateProfileAdmin"
+            <button type="submit" name="submitReview" value="submitReview"
                     style="padding: 10px;cursor: pointer;border-radius: 7px;border: 1px solid #5c636a;margin-right: 20px;">
                 Đăng Review
             </button>
@@ -96,8 +95,44 @@
                     style="padding: 10px;cursor: pointer;border-radius: 7px;border: 1px solid #5c636a">Đóng
             </button>
         </div>
+        <span>Lưu ý rằng bạn cần đăng nhập để đăng feedback.</span>
     </form>
+</div>
+<div id="popup1">
+    <form th:action="@{'/add-url/' + ${movie.movieId}}" method="post" id="writeUrl">
+        <div class="wave-group" th:if="${session.user!=null}">
+            <input type="text" class="input" id="detailUName" name="name"
+                   style="margin-top: 20px;width: 80%" th:text="${user.getName()}"  readonly>
+            <span class="bar"></span>
+            <label class="label">
+                <span class="label-char" style="--index: 0">N</span>
+                <span class="label-char" style="--index: 1">a</span>
+                <span class="label-char" style="--index: 2">m</span>
+                <span class="label-char" style="--index: 3">e</span>
+            </label>
+        </div>
+        <div class="wave-group" style="margin-top: 20px;">
+            <label>
+                Dán link ở đây:
+            </label><br>
+            <textarea rows="10" cols="25" id="detailUrl" name="link" style="width: 80%;font-size: 16px;"
+                      placeholder="Paste here...">
 
+            </textarea>
+
+        </div>
+        <div class="" style="margin-top: 20px;">
+
+            <button type="submit" name="submitReview" value="submitReview"
+                    style="padding: 10px;cursor: pointer;border-radius: 7px;border: 1px solid #5c636a;margin-right: 20px;">
+                Góp url
+            </button>
+            <button type="button" onclick="toggle1()"
+                    style="padding: 10px;cursor: pointer;border-radius: 7px;border: 1px solid #5c636a">Đóng
+            </button>
+        </div>
+        <span>Lưu ý rằng bạn cần đăng nhập để góp link phim</span>
+    </form>
 </div>
 
 
@@ -112,7 +147,7 @@
                     <a th:href="@{/}" class="home-logo">RevPhim</a>
                 </h1>
             </div>
-            <div style="height: 100%; width: 30%">
+            <div th:if="${session.user==null}" style="height: 100%; width: 30%">
                 <ul style="height: 100%; width: 100%;">
                     <li class="nav-item"
                         style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
@@ -122,6 +157,20 @@
                         style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
                         <a class="nav-link" href="/register">Đăng ký</a>
                     </li>
+                </ul>
+            </div>
+            <div th:if="${session.user!=null}" style="height: 100%; width: 30%">
+                <ul style="height: 100%; width: 100%;">
+                    <li class="nav-item"
+                        style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                        <a class="nav-link" href="/logout">Đăng xuất </a>
+                    </li>
+
+                    <li class="nav-item"
+                        style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                        <a class="nav-link" href="#">Xin chào</a><span th:text="${name}"></span>
+                    </li>
+
                 </ul>
             </div>
 
@@ -192,6 +241,13 @@
                                     type="button"
                                     data-toggle="modal" data-target="#reviewModal" onclick="toggle()">
                                 <span class="icon"> <i class="fas fa-pencil-alt"></i> </span> <span>Viết review</span>
+                            </button>
+                        </div>
+                        <div class="company-action col-md-3 text-center">
+                            <button class="btn btn-success pull-right justify-content-center btn-create-review"
+                                    type="button"
+                                    data-toggle="modal" data-target="#reviewModal" onclick="toggle1()">
+                                <span class="icon"> <i class="fas fa-pencil-alt"></i> </span> <span>Góp url</span>
                             </button>
                         </div>
                     </div>

@@ -14,6 +14,6 @@ public interface MovieService {
 
     Movies getMovieById(Integer movieId);
 
-    List<Url> getUrlByMovieId(Integer movieId);
 
+    List<Url> getUrlByMovieId(Integer movieId);
 }

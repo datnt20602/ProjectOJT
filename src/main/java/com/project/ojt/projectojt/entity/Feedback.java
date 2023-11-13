@@ -25,7 +25,7 @@ public class Feedback {
     @JoinColumn(name = "movie_id")
     private Movies movieId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     private LocalDateTime createdAt;

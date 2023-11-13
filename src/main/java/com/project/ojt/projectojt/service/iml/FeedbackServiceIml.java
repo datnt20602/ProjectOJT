@@ -7,6 +7,7 @@ import com.project.ojt.projectojt.service.FeedbackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -24,6 +25,11 @@ public class FeedbackServiceIml implements FeedbackService {
     @Override
     public List<Feedback> getFeedbackByMovieId(Movies movie) {
         return feedbackRepository.findFeedbackByMovieId(movie);
+    }
+
+    @Override
+    public Feedback addFeedback(Feedback feedback) {
+        return feedbackRepository.save(feedback);
     }
 
 

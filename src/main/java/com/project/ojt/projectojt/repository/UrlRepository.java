@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface UrlRepository extends JpaRepository<Url, Integer> {
     List<Url> findByMovieId(Integer movieId);
+
+    List<Url> getUrlByMovieId(Integer movieId);
 }
 
