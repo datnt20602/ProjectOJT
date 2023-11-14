@@ -15,4 +15,7 @@ public interface MovieService {
     Movies getMovieById(Integer movieId);
 
 
+    Movies addMovie(Movies movies);
+
+    Movies updateMovie(Movies movie);
 }

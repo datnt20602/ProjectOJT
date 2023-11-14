@@ -1,16 +1,23 @@
 package com.project.ojt.projectojt.controller;
 
+import com.project.ojt.projectojt.entity.Feedback;
 import com.project.ojt.projectojt.entity.Movies;
 import com.project.ojt.projectojt.entity.User;
 import com.project.ojt.projectojt.service.FeedbackService;
 import com.project.ojt.projectojt.service.MovieService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,6 +52,43 @@ public class HomeController {
         mav.addObject("recentReviews", feedbackService.getRecentReview());
         mav.addObject("searchTerm", searchTerm);
 
+        return mav;
+    }
+
+    @PostMapping("/add-movie")
+    public ModelAndView addMovie(   @RequestParam String describe,
+                                    @RequestParam String movieName,
+                                    @RequestParam String imgLink,
+                                    @RequestParam String director,
+                                    @RequestParam String genre,
+                                    @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate,
+                                    HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+
+            // Lấy userId từ session
+            User user = ((User) request.getSession().getAttribute("user"));
+
+            if (user != null) {
+                // Tạo đối tượng Feedback và thiết lập thông tin
+                Movies movies = Movies.builder()
+                        .movieName(movieName)
+                        .image(imgLink)
+                        .director(director)
+                        .description(describe)
+                        .genre(genre)
+                        .releaseDate(releaseDate)
+                        .user(user)
+                        .build();
+
+                // Thêm Feedback vào cơ sở dữ liệu
+                movieService.addMovie(movies);
+
+                // Chuyển hướng đến trang chi tiết phim sau khi đăng feedback
+                mav.setViewName("redirect:/");
+            } else {
+                // Xử lý trường hợp người dùng chưa đăng nhập
+                mav.setViewName("redirect:/login");
+            }
         return mav;
     }
 

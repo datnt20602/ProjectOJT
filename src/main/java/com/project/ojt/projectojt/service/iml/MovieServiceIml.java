@@ -33,7 +33,15 @@ public class MovieServiceIml implements MovieService {
         return moviesRepository.findMoviesByMovieId(movieId);
     }
 
+    @Override
+    public Movies addMovie(Movies movies) {
+        return moviesRepository.save(movies);
+    }
 
+    @Override
+    public Movies updateMovie(Movies movie) {
+        return moviesRepository.save(movie);
+    }
 
 
 }

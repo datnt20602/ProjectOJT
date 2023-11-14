@@ -82,6 +82,8 @@ public class MovieDetailController {
 
                 // Thêm Feedback vào cơ sở dữ liệu
                 feedbackService.addFeedback(feedback);
+                movie.calculateAverageGrade();
+                movieService.updateMovie(movie); // Đảm bảo cập nhật đối tượng Movies
 
                 // Chuyển hướng đến trang chi tiết phim sau khi đăng feedback
                 mav.setViewName("redirect:/movie-detail/" + movieId);

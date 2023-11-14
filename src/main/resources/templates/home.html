@@ -31,152 +31,289 @@
 
 </head>
 <body>
-<nav class="main-nav navbar">
-    <div class="container">
-        <div class="logo">
-            <a th:href="@{/}" class="home-logo">
-                <img class="logo-img" th:src="@{CSS/images/logo.png}" alt="">
-            </a>
-            <h1 class="logo-text" style="font-weight: bold">
-                <a th:href="@{/}" class="home-logo">RevPhim</a>
-            </h1>
+<div id="popup">
+    <form th:action="@{'add-movie'}" method="post" id="addNewFilm">
+        <div class="wave-group" th:if="${session.user!=null}">
+            <input type="text" class="input" id="detailName" name="name"
+                   style="margin-top: 20px;width: 80%" th:text="${session.user.getName()}"  readonly>
+            <span class="bar"></span>
+            <label class="label">
+                <span class="label-char" style="--index: 0">N</span>
+                <span class="label-char" style="--index: 1">a</span>
+                <span class="label-char" style="--index: 2">m</span>
+                <span class="label-char" style="--index: 3">e</span>
+            </label>
         </div>
-        <div th:if="${session.user==null}" style="height: 100%; width: 30%">
-            <ul style="height: 100%; width: 100%;">
-                <li class="nav-item"
-                    style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
-                    <a class="nav-link" href="/login">Đăng nhập</a>
-                </li>
-                <li class="nav-item"
-                    style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
-                    <a class="nav-link" href="/register">Đăng ký</a>
-                </li>
-            </ul>
+        <div class="wave-group">
+            <input type="text" class="input" id="detailMovieName" name="movieName"
+                   style="margin-top: 20px;width: 80%" min="1" max="10" required>
+            <span class="bar"></span>
+            <label class="label">
+                <span class="label-char" style="--index: 0">M</span>
+                <span class="label-char" style="--index: 1">o</span>
+                <span class="label-char" style="--index: 2">v</span>
+                <span class="label-char" style="--index: 3">N</span>
+                <span class="label-char" style="--index: 4">a</span>
+                <span class="label-char" style="--index: 5">m</span>
+                <span class="label-char" style="--index: 6">e</span>
+
+            </label>
         </div>
-        <div th:if="${session.user!=null}" style="height: 100%; width: 30%">
-            <ul style="height: 100%; width: 100%;">
-                <li class="nav-item"
-                    style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
-                    <a class="nav-link" href="/logout">Đăng xuất </a>
-                </li>
+        <div class="wave-group" style="margin-top: 20px;">
+            <label>
+                Mô tả:
+            </label><br>
+            <textarea rows="10" cols="25" id="detailDecribe" name="describe" style="width: 80%;font-size: 16px;"
+                      placeholder="Mô tả...">
 
-                <li class="nav-item"
-                    style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
-                    <a class="nav-link" href="#">Xin chào</a><span th:text="${name}"></span>
-                </li>
-
-            </ul>
+            </textarea>
         </div>
-
-
-    </div>
-</nav>
-<div class="jumbotron text-center">
-    <h4 class="main-text">Review phim: dễ dàng lựa chọn, đánh giá, url phim hay...</h4>
-    <div class="form-row">
-        <div class="col-12">
-            <form method="get" th:action="@{/search}">
-                <div class="input-group input-group-lg search-input">
-
-                    <input id="movieSearch" type="text" class="form-control" placeholder="Tìm phim"
-                           aria-describedby="basic-addon1" name="searchTerm"
-                           style="border-top-left-radius: 30px; border-bottom-left-radius:30px ">
-                    <div class="input-group-append">
-                        <button class="" type="submit"
-                                style="height: 100%;border-top-right-radius: 30px; border-bottom-right-radius: 30px; background-color: cornflowerblue; border-color: white">
-                            Tìm kiếm
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-
+        <div class="wave-group">
+            <input type="text" class="input" id="detailImgLink" name="imgLink"
+                   style="margin-top: 20px;width: 80%" min="1" max="10" required>
+            <span class="bar"></span>
+            <label class="label">
+                <span class="label-char" style="--index: 0">Img</span>
+                <span class="label-char" style="--index: 1">L</span>
+                <span class="label-char" style="--index: 2">i</span>
+                <span class="label-char" style="--index: 3">n</span>
+                <span class="label-char" style="--index: 4">k</span>
+            </label>
         </div>
-    </div>
+        <div class="wave-group">
+            <input type="text" class="input" id="detailDirector" name="director"
+                   style="margin-top: 20px;width: 80%"  required>
+            <span class="bar"></span>
+            <label class="label">
+                <span class="label-char" style="--index: 0">D</span>
+                <span class="label-char" style="--index: 1">i</span>
+                <span class="label-char" style="--index: 2">r</span>
+                <span class="label-char" style="--index: 3">e</span>
+                <span class="label-char" style="--index: 4">c</span>
+                <span class="label-char" style="--index: 5">t</span>
+                <span class="label-char" style="--index: 6">o</span>
+                <span class="label-char" style="--index: 7">r</span>
+            </label>
+        </div>
+        <div class="wave-group">
+            <input type="text" class="input" id="detailGenre" name="genre"
+                   style="margin-top: 20px;width: 80%" min="1" max="10" required>
+            <span class="bar"></span>
+            <label class="label">
+                <span class="label-char" style="--index: 0">G</span>
+                <span class="label-char" style="--index: 1">e</span>
+                <span class="label-char" style="--index: 2">n</span>
+                <span class="label-char" style="--index: 3">r</span>
+                <span class="label-char" style="--index: 4">e</span>
+            </label>
+        </div>
+        <div class="wave-group">
+            <input type="date" class="input" id="detailReleaseDate" name="releaseDate"
+                   style="margin-top: 20px;width: 80%" min="1" max="10" required>
+            <span class="bar"></span>
+            <label class="label">
+                <span class="label-char" style="">ReleaseDate</span>
+
+            </label>
+        </div>
+        <div class="" style="margin-top: 20px;">
+
+            <button type="submit" name="submitNewFilm" value="submitNewFilm"
+                    style="padding: 10px;cursor: pointer;border-radius: 7px;border: 1px solid #5c636a;margin-right: 20px;">
+                Đăng
+            </button>
+            <button type="button" onclick="toggle()"
+                    style="padding: 10px;cursor: pointer;border-radius: 7px;border: 1px solid #5c636a">Đóng
+            </button>
+        </div>
+        <span>Lưu ý rằng bạn cần đăng nhập để tạo phim mới cần bình luận.</span>
+    </form>
 </div>
+<div id="blur">
+    <nav class="main-nav navbar">
+        <div class="container">
+            <div class="logo">
+                <a th:href="@{/}" class="home-logo">
+                    <img class="logo-img" th:src="@{CSS/images/logo.png}" alt="">
+                </a>
+                <h1 class="logo-text" style="font-weight: bold">
+                    <a th:href="@{/}" class="home-logo">RevPhim</a>
+                </h1>
+            </div>
+            <div th:if="${session.user==null}" style="height: 100%; width: 30%">
+                <ul style="height: 100%; width: 100%;">
+                    <li class="nav-item"
+                        style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                        <a class="nav-link" href="/login">Đăng nhập</a>
+                    </li>
+                    <li class="nav-item"
+                        style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                        <a class="nav-link" href="/register">Đăng ký</a>
+                    </li>
+                </ul>
+            </div>
+            <div th:if="${session.user!=null}" style="height: 100%; width: 30%">
+                <ul style="height: 100%; width: 100%;">
+                    <li class="nav-item"
+                        style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                        <a class="nav-link" href="/logout">Đăng xuất </a>
+                    </li>
 
-<div class="container body-content">
-    <div class="container">
-        <div class="row">
-            <div class="order-1 col-md-8 content-area order-md-1">
-                <div data-href="" class="company-item">
-                    <div class="company-info d-flex justify-content-between" th:each="movie : ${movies}">
-                        <img th:src="${movie.getImage()}" class="col-md-4"
+                    <li class="nav-item"
+                        style=" color: white; font-weight: bold; padding-top: 5px; float: right; height: 100%; padding: 5%">
+                        <a class="nav-link" href="#">Xin chào</a><span th:text="${name}"></span>
+                    </li>
+
+
+                </ul>
+            </div>
+
+
+        </div>
+    </nav>
+    <div class="jumbotron text-center">
+        <h4 class="main-text">Review phim: dễ dàng lựa chọn, đánh giá, url phim hay...</h4>
+        <div class="form-row">
+            <div class="col-12">
+                <form method="get" th:action="@{/search}">
+                    <div class="input-group input-group-lg search-input">
+
+                        <input id="movieSearch" type="text" class="form-control" placeholder="Tìm phim"
+                               aria-describedby="basic-addon1" name="searchTerm"
+                               style="border-top-left-radius: 30px; border-bottom-left-radius:30px ">
+                        <div class="input-group-append">
+                            <button class="" type="submit"
+                                    style="height: 100%;border-top-right-radius: 30px; border-bottom-right-radius: 30px; background-color: cornflowerblue; border-color: white">
+                                Tìm kiếm
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="company-action col-md-12 text-center" style="margin-top: 5px" >
+                    <button class="btn btn-success pull-right justify-content-center btn-create-review"
+                            type="button"
+                            data-toggle="modal" data-target="#reviewModal" onclick="toggle()">
+                        <span class="icon"> <i class="fas fa-pencil-alt"></i> </span> <span>Thêm phim mới</span>
+                    </button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        <div class="container">
+            <div class="row">
+                <div class="order-1 col-md-8 content-area order-md-1">
+                    <div data-href="" class="company-item">
+                        <div class="company-info d-flex justify-content-between" th:each="movie : ${movies}">
+                            <img th:src="${movie.getImage()}" class="col-md-4"
                                  alt="VTC Academy" title="VTC Academy">
-                        <div class="company-info__detail col-md-7">
-                            <h2 class="is-size-5 has-text-weight-semibold company-info__name">
-                               Tên phim:     <a th:href="@{'/movie-detail/' + ${movie.movieId}}" class="company-link" style="text-decoration: none" th:text="${movie.movieName}"></a>
+                            <div class="company-info__detail col-md-7">
+                                <h2 class="is-size-5 has-text-weight-semibold company-info__name">
+                                    Tên phim:     <a th:href="@{'/movie-detail/' + ${movie.movieId}}" class="company-link" style="text-decoration: none" th:text="${movie.movieName}"></a>
 
-                            </h2>
-                            <div class="company-info__other">
+                                </h2>
+                                <div class="company-info__other">
                                     <span class="sp-mr">
                                        Thể loại: <span class="icon"> <i class="fas fa-briefcase"></i></span><span th:text="${movie.getGenre()}"></span>
                                     </span><br>
-                                <span>
+                                    <span>
                                        Điểm trung bình: <span class="icon"> <i class="fas fa-users"></i> </span><span th:text="${movie.getAverageGrade()}"></span>
                                     </span>
-                            </div>
-                            <div class="company-info__location">
+                                </div>
+                                <div class="company-info__location">
                                     <span>
                                        Mô tả: <span class="icon"> <i class="fas fa-building"></i> </span> <span th:text="${movie.getDescription()}"></span>
                                     </span>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
+                    <!--                <div class="text-center paging-area">-->
+                    <!--                    Trang 1 trong tổng số 213-->
+                    <!--                    <div class="pagination-container">-->
+                    <!--                        <ul class="pagination">-->
+                    <!--                            <li class="paging-link active"><a>1</a></li>-->
+                    <!--                            <li class="paging-link"><a href="/?page=2">2</a></li>-->
+                    <!--                            <li class="paging-link"><a href="/?page=3">3</a></li>-->
+                    <!--                            <li class="paging-link"><a href="/?page=4">4</a></li>-->
+                    <!--                            <li class="paging-link"><a href="/?page=5">5</a></li>-->
+                    <!--                            <li class="paging-link"><a href="/?page=6">6</a></li>-->
+                    <!--                            <li class="paging-link"><a href="/?page=7">7</a></li>-->
+                    <!--                            <li class="paging-link"><a href="/?page=8">8</a></li>-->
+                    <!--                            <li class="paging-link"><a href="/?page=9">9</a></li>-->
+                    <!--                            <li class="paging-link"><a href="/?page=10">10</a></li>-->
+                    <!--                            <li class="paging-link disabled PagedList-ellipses"><a>&#8230;</a></li>-->
+                    <!--                            <li class="paging-link PagedList-skipToNext"><a href="/?page=2" rel="next">»</a></li>-->
+                    <!--                            <li class="paging-link PagedList-skipToLast"><a href="/?page=213">»»</a></li>-->
+                    <!--                        </ul>-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
                 </div>
-
-
-                <!--                <div class="text-center paging-area">-->
-                <!--                    Trang 1 trong tổng số 213-->
-                <!--                    <div class="pagination-container">-->
-                <!--                        <ul class="pagination">-->
-                <!--                            <li class="paging-link active"><a>1</a></li>-->
-                <!--                            <li class="paging-link"><a href="/?page=2">2</a></li>-->
-                <!--                            <li class="paging-link"><a href="/?page=3">3</a></li>-->
-                <!--                            <li class="paging-link"><a href="/?page=4">4</a></li>-->
-                <!--                            <li class="paging-link"><a href="/?page=5">5</a></li>-->
-                <!--                            <li class="paging-link"><a href="/?page=6">6</a></li>-->
-                <!--                            <li class="paging-link"><a href="/?page=7">7</a></li>-->
-                <!--                            <li class="paging-link"><a href="/?page=8">8</a></li>-->
-                <!--                            <li class="paging-link"><a href="/?page=9">9</a></li>-->
-                <!--                            <li class="paging-link"><a href="/?page=10">10</a></li>-->
-                <!--                            <li class="paging-link disabled PagedList-ellipses"><a>&#8230;</a></li>-->
-                <!--                            <li class="paging-link PagedList-skipToNext"><a href="/?page=2" rel="next">»</a></li>-->
-                <!--                            <li class="paging-link PagedList-skipToLast"><a href="/?page=213">»»</a></li>-->
-                <!--                        </ul>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-            </div>
-            <div class="order-2 col-md-4 order-md-2">
-                <h1 class="is-size-4 has-text-weight-bold m-t-30">Review gần đây</h1>
-                <div class="review" th:each="review : ${recentReviews}">
-                    <h3 class="rv-content">
+                <div class="order-2 col-md-4 order-md-2">
+                    <h1 class="is-size-4 has-text-weight-bold m-t-30">Review gần đây</h1>
+                    <div class="review" th:each="review : ${recentReviews}">
+                        <h3 class="rv-content">
                             <span class="has-text-weight-bold" th:text="${review.getUser().getName()}">
                             </span> đã review <span class="has-text-weight-bold" th:text="${review.getMovieId().getMovieName()}"></span>
-                    </h3>
-                    <p class="rv-content">
-                        <span th:text="${review.getCreatedAt()}"></span><br>
-                        <span th:text="${review.getGrade()}"></span>
-                    </p>
-                    <p class="rv-content text-content" th:text="${review.getComment()}"></p>
+                        </h3>
+                        <p class="rv-content">
+                            <span th:text="${review.getCreatedAt()}"></span><br>
+                            <span th:text="${review.getGrade()}"></span>
+                        </p>
+                        <p class="rv-content text-content" th:text="${review.getComment()}"></p>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <hr/>
     </div>
 
     <hr/>
+    <footer class="main-footer">
+        <div class="level text-center">
+            <div class="level-left">
+                <p class="level-item" style="color: white; padding-top: 30px">
+                    <span>@Copyright by Datnt</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
 </div>
 
-<hr/>
-<footer class="main-footer">
-    <div class="level text-center">
-        <div class="level-left">
-            <p class="level-item" style="color: white; padding-top: 30px">
-                <span>@Copyright by Datnt</span>
-            </p>
-        </div>
-    </div>
-</footer>
+
+<script th:inline="javascript">
+    function toggle1() {
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('active');
+        var popup = document.getElementById('popup1');
+        popup.classList.toggle('active');
+    }
+
+    function alertDelete(id) {
+        document.getElementById("deleteId").value = id;
+    }
+
+    function toggleDelete() {
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('active');
+        var deleteDiv = document.getElementById('deleteDiv');
+        deleteDiv.classList.toggle('active');
+    }
+
+    function toggle() {
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('active');
+        var popup = document.getElementById('popup');
+        popup.classList.toggle('active');
+    }
+</script>
 
 </body>
 </html>
