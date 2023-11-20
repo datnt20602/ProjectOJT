@@ -8,6 +8,8 @@ import com.project.ojt.projectojt.service.MovieService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,18 +28,40 @@ public class HomeController {
     private final MovieService movieService;
     private final FeedbackService feedbackService;
 
-    @GetMapping(path = {"/home","/"})
-    public ModelAndView home(HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
-        ModelAndView mav = new ModelAndView("home");
-        if (user != null) {
-            mav.addObject("name", user.getName());
-        }
+//    @GetMapping(path = {"/home","/"})
+//    public ModelAndView home(HttpServletRequest request) {
+//        User user = (User) request.getSession().getAttribute("user");
+//        ModelAndView mav = new ModelAndView("home");
+//        if (user != null) {
+//            mav.addObject("name", user.getName());
+//        }
+//
+//        mav.addObject("movies", movieService.getAll());
+//        mav.addObject("recentReviews", feedbackService.getRecentReview());
+//        return mav;
+//    }
+@GetMapping(path = {"/home","/"})
+public ModelAndView home(HttpServletRequest request,
+                         @RequestParam(defaultValue = "0") int page,
+                         @RequestParam(defaultValue = "5") int size) {
+    User user = (User) request.getSession().getAttribute("user");
+    ModelAndView mav = new ModelAndView("home");
 
-        mav.addObject("movies", movieService.getAll());
-        mav.addObject("recentReviews", feedbackService.getRecentReview());
-        return mav;
+    if (user != null) {
+        mav.addObject("name", user.getName());
     }
+
+    // Sử dụng Pageable để lấy trang phim
+    Page<Movies> moviesPage = movieService.getAllPageable(PageRequest.of(page, size));
+
+    mav.addObject("movies", moviesPage.getContent());
+    mav.addObject("recentReviews", feedbackService.getRecentReview());
+    mav.addObject("currentPage", page);
+    mav.addObject("totalPages", moviesPage.getTotalPages());
+
+    return mav;
+}
+
 
     @GetMapping("/search")
     public ModelAndView searchMovies(@RequestParam("searchTerm") String searchTerm, HttpServletRequest request) {

@@ -7,6 +7,8 @@ import com.project.ojt.projectojt.repository.MoviesRepository;
 import com.project.ojt.projectojt.repository.UrlRepository;
 import com.project.ojt.projectojt.service.MovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +43,11 @@ public class MovieServiceIml implements MovieService {
     @Override
     public Movies updateMovie(Movies movie) {
         return moviesRepository.save(movie);
+    }
+
+    @Override
+    public Page<Movies> getAllPageable(Pageable pageable) {
+        return moviesRepository.findAll(pageable);
     }
 
 

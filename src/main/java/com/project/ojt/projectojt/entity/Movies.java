@@ -25,7 +25,7 @@ public class Movies {
     @OneToMany(mappedBy = "movieId", cascade = CascadeType.ALL)
     private List<Feedback> feedbacks;
 
-    @Column(length = 1000) // Đặt độ dài tối đa cho cột 'description'
+    @Column(length = 5000) // Đặt độ dài tối đa cho cột 'description'
     private String description;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date releaseDate;

@@ -220,7 +220,9 @@
                                        Thể loại: <span class="icon"> <i class="fas fa-briefcase"></i></span><span th:text="${movie.getGenre()}"></span>
                                     </span><br>
                                     <span>
-                                       Điểm trung bình: <span class="icon"> <i class="fas fa-users"></i> </span><span th:text="${movie.getAverageGrade()}"></span>
+                                       Điểm trung bình: <span class="icon"> <i class="fas fa-users"></i> </span> <span th:if="${movie.getAverageGrade()==null}">Chưa có đánh giá</span>
+
+                                        <span th:text="${movie.getAverageGrade()}"></span>
                                     </span>
                                 </div>
                                 <div class="company-info__location">
@@ -231,29 +233,29 @@
                             </div>
                         </div>
                     </div>
+                    <div class="pagination">
+                        <ul>
+                            <li th:if="${currentPage > 0}">
+                                <a th:href="@{/home(page=0, size=${size})}">First</a>
+                            </li>
+                            <li th:if="${currentPage > 0}">
+                                <a th:href="@{/home(page=${currentPage - 1}, size=${size})}">Previous</a>
+                            </li>
+                            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:class="${currentPage == i} ? 'active' : ''">
+                                <a th:href="@{/home(page=${i}, size=${size})}" th:text="${i + 1}"></a>
+                            </li>
+                            <li th:if="${currentPage < totalPages - 1}">
+                                <a th:href="@{/home(page=${currentPage + 1}, size=${size})}">Next</a>
+                            </li>
+                            <li th:if="${currentPage < totalPages - 1}">
+                                <a th:href="@{/home(page=${totalPages - 1}, size=${size})}">Last</a>
+                            </li>
+                        </ul>
+                    </div>
 
 
-                    <!--                <div class="text-center paging-area">-->
-                    <!--                    Trang 1 trong tổng số 213-->
-                    <!--                    <div class="pagination-container">-->
-                    <!--                        <ul class="pagination">-->
-                    <!--                            <li class="paging-link active"><a>1</a></li>-->
-                    <!--                            <li class="paging-link"><a href="/?page=2">2</a></li>-->
-                    <!--                            <li class="paging-link"><a href="/?page=3">3</a></li>-->
-                    <!--                            <li class="paging-link"><a href="/?page=4">4</a></li>-->
-                    <!--                            <li class="paging-link"><a href="/?page=5">5</a></li>-->
-                    <!--                            <li class="paging-link"><a href="/?page=6">6</a></li>-->
-                    <!--                            <li class="paging-link"><a href="/?page=7">7</a></li>-->
-                    <!--                            <li class="paging-link"><a href="/?page=8">8</a></li>-->
-                    <!--                            <li class="paging-link"><a href="/?page=9">9</a></li>-->
-                    <!--                            <li class="paging-link"><a href="/?page=10">10</a></li>-->
-                    <!--                            <li class="paging-link disabled PagedList-ellipses"><a>&#8230;</a></li>-->
-                    <!--                            <li class="paging-link PagedList-skipToNext"><a href="/?page=2" rel="next">»</a></li>-->
-                    <!--                            <li class="paging-link PagedList-skipToLast"><a href="/?page=213">»»</a></li>-->
-                    <!--                        </ul>-->
-                    <!--                    </div>-->
-                    <!--                </div>-->
                 </div>
+
                 <div class="order-2 col-md-4 order-md-2">
                     <h1 class="is-size-4 has-text-weight-bold m-t-30">Review gần đây</h1>
                     <div class="review" th:each="review : ${recentReviews}">
