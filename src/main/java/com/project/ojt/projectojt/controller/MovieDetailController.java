@@ -12,6 +12,10 @@ import com.project.ojt.projectojt.service.UserService;
 import jakarta.persistence.Convert;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,16 +35,31 @@ public class MovieDetailController {
     private final UrlService urlService;
 
     @GetMapping("/movie-detail/{movieId}")
-    public ModelAndView movieDetail(@PathVariable Integer movieId, HttpServletRequest request) {
+    public ModelAndView movieDetail(@PathVariable Integer movieId,
+                                    @RequestParam(defaultValue = "0") int page,
+                                    HttpServletRequest request) {
         // Lấy thông tin phim dựa trên movieId và truyền nó đến trang movie-detail.html
         Movies movie = movieService.getMovieById(movieId); // implement phương thức getMovieById
         List<Url> urls = urlService.getUrlByMovieId(movie); // Thay vì `getUrlByMovieId`
-        List<Feedback> feedback = feedbackService.getFeedbackByMovieId(movie);
+
+        int pageSize=4;
+        if (page < 0) {
+            page = 0; // Nếu page âm, sử dụng trang đầu tiên
+        }
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("id").descending());
+
+//        List<Feedback> feedback = feedbackService.getFeedbackByMovieId(movie);
+        Page<Feedback> feedbackPage = feedbackService.getFeedbackPageByMovieId(movie, pageable);
+
+        Integer totalFeedback = feedbackService.getTotalFeedbackByMovieId(movie);
 
         ModelAndView mav = new ModelAndView("movie-detail");
         mav.addObject("movie", movie);
         mav.addObject("urls", urls);
-        mav.addObject("feedback", feedback);
+        mav.addObject("feedback", feedbackPage.getContent()); // Lấy danh sách đánh giá từ trang hiện tại
+        mav.addObject("totalFeedback", totalFeedback);
+        mav.addObject("currentPage", page);
+        mav.addObject("totalPages", feedbackPage.getTotalPages());
 
         User user = (User) request.getSession().getAttribute("user");
         mav.addObject("user", user);

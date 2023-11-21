@@ -199,8 +199,10 @@
                                        Thể loại: <span class="icon"> <i class="fas fa-briefcase"></i></span><span
                                             th:text="${movie.getGenre()}"></span>
                                     </span><br>
-                                        <span>
-                                       Điểm trung bình: <span class="icon"> <i class="fas fa-users"></i> </span><span
+                                        <span style="font-weight: bold">
+                                       Điểm trung bình: <span class="icon"> <i class="fas fa-users"></i> </span>
+                                            <span th:if="${movie.getAverageGrade()==null}">Chưa có đánh giá</span>
+                                            <span
                                                 th:text="${movie.getAverageGrade()}"></span>
                                     </span>
                                     </div>
@@ -276,7 +278,7 @@
                                             <i class="far fa-star"></i>
                                         </span>
                             </span>
-                            <span class="company-info__rating-count">(171)</span>
+                            (<span class="company-info__rating-count" th:text="${totalFeedback}"></span>)
                         </span>
                                     </h4>
 
@@ -319,28 +321,19 @@
                                     <p class="has-text-weight-medium text-center">Đang hiển thị toàn bộ review</p>
                                 </div>
                             </div>
-                            <script async
-                                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9045138390920719"
-                                    crossorigin="anonymous"></script>
-                            <!-- square -->
-                            <ins class="adsbygoogle"
-                                 style="display:block"
-                                 data-ad-client="ca-pub-9045138390920719"
-                                 data-ad-slot="1776187575"
-                                 data-ad-format="auto"
-                                 data-full-width-responsive="true"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
-                        </div>
-                        <div class="col-md-8">
 
-                            <h3 class="is-size-5 has-text-weight-semibold company-info__name">Review phim
-                                <span th:text="${movie.getMovieName()}"></span>
+                        </div>
+                        <!-- Hiển thị danh sách đánh giá -->
+                        <div class="col-md-8" th:if="${totalFeedback > 0}">
+
+                            <h3 class="is-size-5 has-text-weight-semibold company-info__name">
+                                Review phim <span th:text="${movie.getMovieName()}"></span>
                             </h3>
-                            <!--                        <p class="text-danger">Tất cả các đánh giá xúc phạm hoặc miệt thị các cá nhân, tổ chức và công ty sẽ-->
-                            <!--                            bị xóa.</p>-->
-                            <div class="feedback card card-rv" th:each="f : ${feedback}">
+
+
+
+                            <!-- Hiển thị đánh giá -->
+                            <div th:each="f : ${feedback}" class="feedback card card-rv">
                                 <style>
                                     .card-header {
                                         font-weight: 700;
@@ -390,34 +383,44 @@
                                 </style>
                                 <div class="card-header">
                                     <span th:text="${f.getUser().getName()}"></span>&nbsp; đã comment phim:&nbsp;
-                                    <p class="name-rv" th:text="${f.getMovieId().getMovieName()}">&nbsp;
-                                    </p>&nbsp;
-                                     <span class="formattedCreatedAt" th:text="${f.getCreatedAt()}"></span>&nbsp;
-
+                                    <p class="name-rv" th:text="${f.getMovieId().getMovieName()}"></p>&nbsp;
+                                    <span class="formattedCreatedAt" th:text="${f.getCreatedAt()}"></span>&nbsp;
                                 </div>
                                 <div class="card-body">
-                                   Bình luận <p class="card-text text-content" th:text="${f.getComment()}"></p>
+                                    Bình luận <p class="card-text text-content" th:text="${f.getComment()}"></p>
                                 </div>
                                 <div class="review-comments">
                                     <div class="comment">
                                         <p class="comment__title">
-
-                                           Điểm: <span class="has-text-weight-bold" th:text="${f.getGrade()}">
-
-
-<!--                            <span class="icon-like icon has-text-danger"> <i class="fas fa-thumbs-down"></i> </span>-->
-                                                <!--                        11 ph&#250;t trước-->
-                    </span>
+                                            Điểm: <span class="has-text-weight-bold" th:text="${f.getGrade()}"></span>
                                         </p>
-                                        <!--                                        <p class="comment__content text-500 text-content">Bạn c&#243; chuy&#234;n m&#244;n-->
-                                        <!--                                            g&#236;-->
-                                        <!--                                            m&#224; đ&#225;nh gi&#225; người kh&#225;c thế</p>-->
                                     </div>
                                 </div>
-
                             </div>
 
+                            <!-- Phân trang -->
+                                <ul class="pagination" >
+                                    <li th:if="${currentPage > 0}">
+                                        <a th:href="@{/movie-detail/{movieId}(movieId=${movie.getMovieId()},page=${currentPage - 1})}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li th:each="pageItem : ${#numbers.sequence(0, totalPages - 1)}" th:class="${currentPage == pageItem} ? 'active'">
+                                        <a th:href="@{/movie-detail/{movieId}(movieId=${movie.getMovieId()},page=${pageItem})}" th:text="${pageItem + 1}"></a>
+                                    </li>
+                                    <li th:if="${currentPage < totalPages - 1}">
+                                        <a th:href="@{/movie-detail/{movieId}(movieId=${movie.getMovieId()},page=${currentPage + 1})}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
 
+
+
+                        </div>
+                        <div class="col-md-8" th:unless="${totalFeedback > 0}">
+                            <!-- Hiển thị thông báo khi không có feedback -->
+                            <p>Hiện chưa có bình luận nào cho phim này.</p>
                         </div>
 
                     </div>

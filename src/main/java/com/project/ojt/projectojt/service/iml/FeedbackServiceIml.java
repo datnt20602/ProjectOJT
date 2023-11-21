@@ -5,6 +5,8 @@ import com.project.ojt.projectojt.entity.Movies;
 import com.project.ojt.projectojt.repository.FeedbackRepository;
 import com.project.ojt.projectojt.service.FeedbackService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,14 +24,24 @@ public class FeedbackServiceIml implements FeedbackService {
         return feedbackRepository.findFirst10ByOrderByIdDesc();
     }
 
-    @Override
-    public List<Feedback> getFeedbackByMovieId(Movies movie) {
-        return feedbackRepository.findFeedbackByMovieId(movie);
-    }
+//    @Override
+//    public List<Feedback> getFeedbackByMovieId(Movies movie) {
+//        return feedbackRepository.findFeedbackByMovieIdOrderByIdDesc(movie);
+//    }
 
     @Override
     public Feedback addFeedback(Feedback feedback) {
         return feedbackRepository.save(feedback);
+    }
+
+    @Override
+    public Integer getTotalFeedbackByMovieId(Movies movie) {
+        return feedbackRepository.countFeedbacksByMovieId(movie);
+    }
+
+    @Override
+    public Page<Feedback> getFeedbackPageByMovieId(Movies movie, Pageable pageable) {
+        return feedbackRepository.findByMovieIdOrderByIdDesc(movie,pageable);
     }
 
 

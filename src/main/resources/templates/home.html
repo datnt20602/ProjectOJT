@@ -219,7 +219,7 @@
                                     <span class="sp-mr">
                                        Thể loại: <span class="icon"> <i class="fas fa-briefcase"></i></span><span th:text="${movie.getGenre()}"></span>
                                     </span><br>
-                                    <span>
+                                    <span style="font-weight: bold">
                                        Điểm trung bình: <span class="icon"> <i class="fas fa-users"></i> </span> <span th:if="${movie.getAverageGrade()==null}">Chưa có đánh giá</span>
 
                                         <span th:text="${movie.getAverageGrade()}"></span>
