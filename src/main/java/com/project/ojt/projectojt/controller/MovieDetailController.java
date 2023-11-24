@@ -1,14 +1,8 @@
 package com.project.ojt.projectojt.controller;
 
-import com.project.ojt.projectojt.entity.Feedback;
-import com.project.ojt.projectojt.entity.Movies;
-import com.project.ojt.projectojt.entity.Url;
-import com.project.ojt.projectojt.entity.User;
-import com.project.ojt.projectojt.service.FeedbackService;
-import com.project.ojt.projectojt.service.MovieService;
+import com.project.ojt.projectojt.entity.*;
+import com.project.ojt.projectojt.service.*;
 
-import com.project.ojt.projectojt.service.UrlService;
-import com.project.ojt.projectojt.service.UserService;
 import jakarta.persistence.Convert;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +25,8 @@ import java.util.List;
 public class MovieDetailController {
     private final MovieService movieService;
     private final FeedbackService feedbackService;
-    private final UserService userService;
     private final UrlService urlService;
+    private final ReplyService replyService;
 
     @GetMapping("/movie-detail/{movieId}")
     public ModelAndView movieDetail(@PathVariable Integer movieId,
@@ -155,9 +149,48 @@ public class MovieDetailController {
 
         return mav;
     }
+    @PostMapping("/reply-feedback/{movieId}/{feedbackId}")
+    public ModelAndView replyFeedback(@PathVariable Integer movieId,
+                                      @PathVariable Integer feedbackId,
+                                      @RequestParam String reply,
+                                      HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
 
+        Feedback feedback = feedbackService.getFeedbackById(feedbackId);
 
+        if (feedback != null) {
+            User user = (User) request.getSession().getAttribute("user");
 
+            if (user != null) {
+                // Tạo đối tượng Reply và thiết lập thông tin
+                Reply replyObject = Reply.builder()
+                        .feedback(feedback)
+                        .repliedBy(user)
+                        .content(reply)
+                        .createdAt(LocalDateTime.now())
+                        .updatedAt(LocalDateTime.now())
+                        .build();
 
+                // Thêm Reply vào cơ sở dữ liệu
+                replyService.addReply(replyObject);
+
+                // Cập nhật lại danh sách replies của feedback
+                feedback.getReplies().add(replyObject);
+                feedbackService.updateFeedback(feedback);
+
+                // Chuyển hướng đến trang chi tiết phim sau khi trả lời feedback
+                mav.setViewName("redirect:/movie-detail/" + movieId);
+            } else {
+                // Xử lý trường hợp người dùng chưa đăng nhập
+                mav.setViewName("redirect:/login");
+            }
+        } else {
+            // Xử lý trường hợp không tìm thấy feedback
+            mav.addObject("errorMessage", "Feedback không tồn tại");
+            mav.setViewName("error");
+        }
+
+        return mav;
+    }
 }
 

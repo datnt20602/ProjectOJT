@@ -22,4 +22,8 @@ public interface FeedbackService {
     Integer getTotalFeedbackByMovieId(Movies movie);
 
     Page<Feedback> getFeedbackPageByMovieId(Movies movie, Pageable pageable);
+
+    Feedback getFeedbackById(Integer feedbackId);
+
+    Feedback updateFeedback(Feedback feedback);
 }

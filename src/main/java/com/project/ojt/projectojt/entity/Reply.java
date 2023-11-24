@@ -7,33 +7,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Feedback {
-
+public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Double grade;
-    private String comment;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "movie_id")
-    private Movies movieId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "feedback_id")
+    private Feedback feedback;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "replied_by_user_id")
+    private User repliedBy;
+
+    private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "feedback", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reply> replies = new ArrayList<>();
-
 }

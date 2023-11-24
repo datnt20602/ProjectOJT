@@ -47,8 +47,7 @@
 
     <!-- Thêm Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-
-</head>
+    </head>
 <body>
 <div id="popup">
     <form th:action="@{'/add-feedback/' + ${movie.movieId}}" method="post" id="writeReview">
@@ -339,24 +338,9 @@
                                         font-weight: 700;
                                         display: flex;
                                     }
-
-                                    .star-rv {
-                                        display: flex;
-                                        flex-grow: 1;
-                                        align-items: center;
-                                        margin: 0px !important;
+                                    .card{
+                                        margin-top:10px;
                                     }
-
-                                    .mrleft-2 {
-                                        margin-left: .2rem;
-                                    }
-
-                                    .time-ago {
-                                        font-weight: 300;
-                                        display: flex;
-                                        align-items: center;
-                                    }
-
                                     .card-footer {
                                         display: flex;
                                         padding: 0px;
@@ -394,6 +378,33 @@
                                         <p class="comment__title">
                                             Điểm: <span class="has-text-weight-bold" th:text="${f.getGrade()}"></span>
                                         </p>
+                                    </div>
+                                </div>
+                                <!-- Hiển thị phản hồi -->
+                                <div th:each="reply : ${f.getReplies()}" class="reply card">
+                                    <div class="card-body">
+                                        <p class="card-text" style="font-weight: bold">
+                                            <small class="text-muted">
+                                                <span th:text="'Người dùng ' + ${reply.getRepliedBy().getName()} + ' trả lời vào lúc ' + ${#temporals.format(reply.getCreatedAt(), 'dd/MM/yyyy HH:mm')}"></span>
+                                            </small>
+                                        </p>
+                                        <p class="card-text text-content" th:text="${reply.getContent()}"></p>
+
+                                    </div>
+                                </div>
+                                <!-- Thêm nút "Reply" và form trả lời -->
+                                <div class="card-footer">
+                                    <button type="button" style="margin: 2px" class="btn btn-primary" th:onclick="'toggleReplyForm(' + ${f.id} + ')'">
+                                        Reply
+                                    </button>
+                                    <div th:id="'replyForm' + ${f.id}" class="reply-form collapse">
+                                        <form th:action="@{'/reply-feedback/' + ${movie.getMovieId()} + '/' + ${f.id}}" method="post">
+                                            <div class="form-group">
+                                                <label for="replyContent">Reply:</label>
+                                                <textarea class="form-control" id="replyContent" name="reply" rows="3" required></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Send Reply</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -491,6 +502,19 @@
 <script th:inline="javascript" type="text/javascript">
     // Gọi hàm formatCreatedAt để định dạng lại thời gian cho tất cả các phản hồi
     formatCreatedAt();
+</script>
+
+<script th:inline="javascript">
+    function toggleReplyForm(feedbackId) {
+        var formId = 'replyForm' + feedbackId;
+        var form = document.getElementById(formId);
+
+        if (form.classList.contains('show')) {
+            form.classList.remove('show');
+        } else {
+            form.classList.add('show');
+        }
+    }
 </script>
 
 

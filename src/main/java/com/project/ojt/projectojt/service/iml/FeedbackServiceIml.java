@@ -44,5 +44,15 @@ public class FeedbackServiceIml implements FeedbackService {
         return feedbackRepository.findByMovieIdOrderByIdDesc(movie,pageable);
     }
 
+    @Override
+    public Feedback getFeedbackById(Integer feedbackId) {
+        return feedbackRepository.findFeedbackById(feedbackId);
+    }
+
+    @Override
+    public Feedback updateFeedback(Feedback feedback) {
+        return feedbackRepository.save(feedback);
+    }
+
 
 }

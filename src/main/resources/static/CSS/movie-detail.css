@@ -198,6 +198,16 @@ ul{list-style: none}
     margin-right: 0;
 }
 
+.reply-form {
+    transition: height 0.5s;
+    overflow: hidden;
+    height: 0;
+}
+
+.reply-form.show {
+    height: auto;
+}
+
 /*.feedback card.card-header {*/
 /*    font-weight: 700;*/
 /*    display: flex;*/

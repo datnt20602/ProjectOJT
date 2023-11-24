@@ -22,4 +22,5 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
     Integer countFeedbacksByMovieId(Movies movies);
 
 
+    Feedback findFeedbackById(Integer feedbackId);
 }
